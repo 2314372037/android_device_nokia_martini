@@ -149,11 +149,11 @@ def WriteRadio(info, radio_img):
 #         } img_info[];
 # };
 #
-# Hammerhead's bootloader.img contains 6 separate images.
+# martini's bootloader.img contains 6 separate images.
 # Each goes to its own partition:
 #    aboot, rpm, tz, sbl1, sdi, imgdata
 #
-# Hammerhead also has 4 backup partitions:
+# martini also has 4 backup partitions:
 #    aboot, rpm, sbl1, tz
 #
 

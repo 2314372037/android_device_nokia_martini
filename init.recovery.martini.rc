@@ -1,4 +1,4 @@
-import /init.recovery.hammerhead.usb.rc
+import /init.recovery.martini.usb.rc
 
 on fs
     wait /dev/block/platform/msm_sdcc.1

@@ -26,13 +26,20 @@ TARGET_USES_64_BIT_BINDER := true
 
 TARGET_NO_BOOTLOADER := true
 
-BOARD_KERNEL_BASE := 0x00000000
-BOARD_KERNEL_PAGESIZE := 2048
-
-BOARD_KERNEL_CMDLINE := console=none androidboot.hardware=hammerhead user_debug=31 msm_watchdog_v2.enable=1 androidboot.bootdevice=msm_sdcc.1
+# Kernel
+BOARD_KERNEL_BASE := 0x10100000
+BOARD_KERNEL_CMDLINE := console=ttyHSL0,115200,n8 earlycon=msm_serial_dm,0xf991e000 androidboot.console=ttyHSL0 androidboot.hardware=martini androidboot.bootdevice=msm_sdcc.1 user_debug=31 maxcpus=4 msm_watchdog_v2.enable=1
+# The 3.4 kernel uses the legacy android_usb gadget, not USB configfs.
+BOARD_KERNEL_CMDLINE += androidboot.selinux=permissive
 BOARD_KERNEL_CMDLINE += loop.max_part=7
-BOARD_MKBOOTIMG_ARGS := --ramdisk_offset 0x02900000 --tags_offset 0x02700000
 BOARD_KERNEL_IMAGE_NAME := zImage-dtb
+BOARD_KERNEL_PAGESIZE := 2048
+BOARD_MKBOOTIMG_ARGS := --header_version 0 --kernel_offset 0x00008000 --tags_offset 0x02000000 --ramdisk_offset 0x02200000
+
+TARGET_KERNEL_ADDITIONAL_FLAGS := HOSTCFLAGS="-fuse-ld=lld -Wno-unused-command-line-argument"
+TARGET_KERNEL_CLANG_COMPILE := false
+TARGET_KERNEL_CONFIG := lineageos_martini_defconfig
+TARGET_KERNEL_SOURCE := kernel/nokia/martini
 
 # Shader cache config options
 # Maximum size of the  GLES Shaders that can be cached for reuse.
@@ -49,11 +56,11 @@ USE_XML_AUDIO_POLICY_CONF := 1
 
 BOARD_HAVE_BLUETOOTH := true
 BOARD_HAVE_BLUETOOTH_BCM := true
-BOARD_CUSTOM_BT_CONFIG := device/lge/hammerhead/bluetooth/configs/vnd_hammerhead.txt
-BOARD_BLUETOOTH_BDROID_BUILDCFG_INCLUDE_DIR := device/lge/hammerhead/bluetooth/configs
+BOARD_CUSTOM_BT_CONFIG := device/nokia/martini/bluetooth/configs/vnd_martini.txt
+BOARD_BLUETOOTH_BDROID_BUILDCFG_INCLUDE_DIR := device/nokia/martini/bluetooth/configs
 
 # Filesystem
-TARGET_FS_CONFIG_GEN := device/lge/hammerhead/config.fs
+TARGET_FS_CONFIG_GEN := device/nokia/martini/config.fs
 
 # Wifi related defines
 WPA_SUPPLICANT_VERSION      := VER_0_8_X
@@ -70,8 +77,8 @@ BOARD_USES_SECURE_SERVICES := true
 
 TARGET_NO_RADIOIMAGE := true
 TARGET_BOARD_PLATFORM := msm8974
-TARGET_BOOTLOADER_BOARD_NAME := hammerhead
-TARGET_BOARD_INFO_FILE := device/lge/hammerhead/board-info.txt
+TARGET_BOOTLOADER_BOARD_NAME := martini
+TARGET_BOARD_INFO_FILE := device/nokia/martini/board-info.txt
 TARGET_NO_RPC := true
 
 NUM_FRAMEBUFFER_SURFACE_BUFFERS := 2
@@ -94,8 +101,9 @@ WITH_DEXPREOPT_BOOT_IMG_AND_SYSTEM_SERVER_ONLY := true
 
 TARGET_USERIMAGES_USE_EXT4 := true
 TARGET_USERIMAGES_USE_F2FS := true
-BOARD_BOOTIMAGE_PARTITION_SIZE := 23068672
-BOARD_RECOVERYIMAGE_PARTITION_SIZE := 23068672
+# Match the boot/recovery limits used by the working twrp-6.0 tree.
+BOARD_BOOTIMAGE_PARTITION_SIZE := 33554432
+BOARD_RECOVERYIMAGE_PARTITION_SIZE := 33554432
 BOARD_SYSTEMIMAGE_PARTITION_SIZE := 1073741824
 BOARD_USERDATAIMAGE_PARTITION_SIZE := 13725837312
 BOARD_CACHEIMAGE_PARTITION_SIZE := 734003200
@@ -106,29 +114,24 @@ BOARD_ROOT_EXTRA_FOLDERS := firmware persist
 BOARD_ROOT_EXTRA_SYMLINKS += /vendor/etc:/vtc
 BOARD_ROOT_EXTRA_SYMLINKS += /data/tombstones:/tombstones
 
-# Define kernel config for inline building
-TARGET_KERNEL_ADDITIONAL_FLAGS := HOSTCFLAGS="-fuse-ld=lld -Wno-unused-command-line-argument"
-TARGET_KERNEL_CLANG_COMPILE := false
-TARGET_KERNEL_CONFIG := lineageos_hammerhead_defconfig
-TARGET_KERNEL_SOURCE := kernel/lge/hammerhead
-
 BOARD_CHARGER_ENABLE_SUSPEND := true
 
-TARGET_RECOVERY_FSTAB = device/lge/hammerhead/fstab.hammerhead
+TARGET_RECOVERY_FSTAB := device/nokia/martini/fstab.martini
+TARGET_RECOVERY_PIXEL_FORMAT := "RGBX_8888"
 
-TARGET_RELEASETOOLS_EXTENSIONS := device/lge/hammerhead
+TARGET_RELEASETOOLS_EXTENSIONS := device/nokia/martini
 
 # QCOM selinux policies
 include device/qcom/sepolicy-legacy/sepolicy.mk
 
-BOARD_SEPOLICY_DIRS += device/lge/hammerhead/sepolicy
+BOARD_SEPOLICY_DIRS += device/nokia/martini/sepolicy
 BOARD_SEPOLICY_M4DEFS += vensys=\(vendor\|system/vendor\)
 
 BOARD_PLAT_PRIVATE_SEPOLICY_DIR += \
-    device/lge/hammerhead/sepolicy/private
+    device/nokia/martini/sepolicy/private
 
-DEVICE_MANIFEST_FILE := device/lge/hammerhead/manifest.xml
-DEVICE_MATRIX_FILE := device/lge/hammerhead/compatibility_matrix.xml
+DEVICE_MANIFEST_FILE := device/nokia/martini/manifest.xml
+DEVICE_MATRIX_FILE := device/nokia/martini/compatibility_matrix.xml
 
 TARGET_FORCE_HWC_FOR_VIRTUAL_DISPLAYS := true
 TARGET_HAS_HH_VSYNC_ISSUE := true
@@ -162,4 +165,4 @@ TARGET_VNDK_USE_CORE_VARIANT := true
 TARGET_USES_INTERACTION_BOOST := true
 TARGET_USES_NON_LEGACY_POWERHAL := true
 
--include vendor/lge/hammerhead/BoardConfigVendor.mk
+-include vendor/nokia/martini/BoardConfigVendor.mk

@@ -51,68 +51,17 @@ android::status_t registerLightService() {
         return -error;
     }
 
+    // Martini's current kernel does not expose Hammerhead RGB LEDs. Missing LED
+    // nodes must not prevent the display backlight service from registering.
     std::ofstream rLedBrightness(kRLedBrightnessPath);
-    if (!rLedBrightness) {
-        int error = errno;
-        ALOGE("Failed to open %s (%d): %s", kRLedBrightnessPath.c_str(), error, strerror(error));
-        return -error;
-    }
-
     std::ofstream gLedBrightness(kGLedBrightnessPath);
-    if (!gLedBrightness) {
-        int error = errno;
-        ALOGE("Failed to open %s (%d): %s", kGLedBrightnessPath.c_str(), error, strerror(error));
-        return -error;
-    }
-
     std::ofstream bLedBrightness(kBLedBrightnessPath);
-    if (!bLedBrightness) {
-        int error = errno;
-        ALOGE("Failed to open %s (%d): %s", kBLedBrightnessPath.c_str(), error, strerror(error));
-        return -error;
-    }
-
     std::ofstream rLedTimeout(kRLedTimeoutPath);
-    if (!rLedTimeout) {
-        int error = errno;
-        ALOGE("Failed to open %s (%d): %s", kRLedTimeoutPath.c_str(), error, strerror(error));
-        return -error;
-    }
-
     std::ofstream gLedTimeout(kGLedTimeoutPath);
-    if (!gLedTimeout) {
-        int error = errno;
-        ALOGE("Failed to open %s (%d): %s", kGLedTimeoutPath.c_str(), error, strerror(error));
-        return -error;
-    }
-
     std::ofstream bLedTimeout(kBLedTimeoutPath);
-    if (!bLedTimeout) {
-        int error = errno;
-        ALOGE("Failed to open %s (%d): %s", kBLedTimeoutPath.c_str(), error, strerror(error));
-        return -error;
-    }
-
     std::ofstream rLedLocked(kRLedLockedPath);
-    if (!rLedLocked) {
-        int error = errno;
-        ALOGE("Failed to open %s (%d): %s", kRLedLockedPath.c_str(), error, strerror(error));
-        return -error;
-    }
-
     std::ofstream gLedLocked(kGLedLockedPath);
-    if (!gLedLocked) {
-        int error = errno;
-        ALOGE("Failed to open %s (%d): %s", kGLedLockedPath.c_str(), error, strerror(error));
-        return -error;
-    }
-
     std::ofstream bLedLocked(kBLedLockedPath);
-    if (!bLedLocked) {
-        int error = errno;
-        ALOGE("Failed to open %s (%d): %s", kBLedLockedPath.c_str(), error, strerror(error));
-        return -error;
-    }
 
     android::sp<ILight> service = new Light(std::move(backlight),
                                             std::move(rLedBrightness),

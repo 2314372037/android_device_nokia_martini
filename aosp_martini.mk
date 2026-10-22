@@ -13,9 +13,9 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 #
-$(call inherit-product, device/lge/hammerhead/full_hammerhead.mk)
+$(call inherit-product, device/nokia/martini/full_martini.mk)
 
-PRODUCT_NAME := aosp_hammerhead
+PRODUCT_NAME := aosp_martini
 
 PRODUCT_PACKAGES += \
     Launcher3

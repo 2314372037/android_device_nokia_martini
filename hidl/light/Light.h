@@ -21,6 +21,7 @@
 #include <hidl/Status.h>
 
 #include <fstream>
+#include <functional>
 #include <mutex>
 #include <unordered_map>
 
@@ -67,9 +68,9 @@ private:
     std::ofstream mGLedLocked;
     std::ofstream mBLedLocked;
 
-    LightState mNotificationState;
-    LightState mAttentionState;
-    LightState mBatteryState;
+    LightState mNotificationState{};
+    LightState mAttentionState{};
+    LightState mBatteryState{};
 
     std::unordered_map<Type, std::function<void(const LightState&)>> mLights;
     std::mutex mLock;

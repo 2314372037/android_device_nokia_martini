@@ -14,8 +14,8 @@
 # limitations under the License.
 #
 
-# This file includes all definitions that apply to ALL hammerhead devices, and
-# are also specific to hammerhead devices
+# This file includes all definitions that apply to ALL martini devices, and
+# are also specific to martini devices
 #
 # Everything in this directory will become public
 
@@ -24,15 +24,16 @@ PRODUCT_COPY_FILES += \
     $(LOCAL_PATH)/ld.config.txt:$(TARGET_COPY_OUT_VENDOR)/etc/swcodec/ld.config.txt
 
 PRODUCT_COPY_FILES += \
-    $(LOCAL_PATH)/init.hammerhead.rc:$(TARGET_COPY_OUT_VENDOR)/etc/init/hw/init.hammerhead.rc \
-    $(LOCAL_PATH)/init.hammerhead.usb.rc:$(TARGET_COPY_OUT_VENDOR)/etc/init/hw/init.hammerhead.usb.rc \
-    $(LOCAL_PATH)/init.recovery.hammerhead.rc:$(TARGET_COPY_OUT_RECOVERY)/root/init.recovery.hammerhead.rc \
-    $(LOCAL_PATH)/init.recovery.hammerhead.usb.rc:$(TARGET_COPY_OUT_RECOVERY)/root/init.recovery.hammerhead.usb.rc \
-    $(LOCAL_PATH)/fstab.hammerhead:$(TARGET_COPY_OUT_RAMDISK)/fstab.hammerhead \
-    $(LOCAL_PATH)/fstab.hammerhead:$(TARGET_COPY_OUT_VENDOR)/etc/fstab.hammerhead \
-    $(LOCAL_PATH)/ueventd.hammerhead.rc:$(TARGET_COPY_OUT_VENDOR)/ueventd.rc
+    $(LOCAL_PATH)/init.martini.rc:$(TARGET_COPY_OUT_VENDOR)/etc/init/hw/init.martini.rc \
+    $(LOCAL_PATH)/init.martini.usb.rc:$(TARGET_COPY_OUT_VENDOR)/etc/init/hw/init.martini.usb.rc \
+    $(LOCAL_PATH)/init.recovery.martini.rc:$(TARGET_COPY_OUT_RECOVERY)/root/init.recovery.martini.rc \
+    $(LOCAL_PATH)/init.recovery.martini.usb.rc:$(TARGET_COPY_OUT_RECOVERY)/root/init.recovery.martini.usb.rc \
+    $(LOCAL_PATH)/ueventd.martini.rc:$(TARGET_COPY_OUT_RECOVERY)/root/ueventd.martini.rc \
+    $(LOCAL_PATH)/fstab.martini:$(TARGET_COPY_OUT_RAMDISK)/fstab.martini \
+    $(LOCAL_PATH)/fstab.martini:$(TARGET_COPY_OUT_VENDOR)/etc/fstab.martini \
+    $(LOCAL_PATH)/ueventd.martini.rc:$(TARGET_COPY_OUT_VENDOR)/ueventd.rc
 
-# Input device files for hammerhead
+# Input device files for martini
 PRODUCT_COPY_FILES += \
     $(LOCAL_PATH)/gpio-keys.kl:$(TARGET_COPY_OUT_VENDOR)/usr/keylayout/gpio-keys.kl \
     $(LOCAL_PATH)/gpio-keys.kcm:$(TARGET_COPY_OUT_VENDOR)/usr/keychars/gpio-keys.kcm \
@@ -104,7 +105,7 @@ PRODUCT_COPY_FILES += \
 
 # Privapp Whitelist
 PRODUCT_COPY_FILES += \
-    $(LOCAL_PATH)/permissions/privapp-permissions-hammerhead.xml:$(TARGET_COPY_OUT_VENDOR)/etc/permissions/privapp-permissions-hammerhead.xml
+    $(LOCAL_PATH)/permissions/privapp-permissions-martini.xml:$(TARGET_COPY_OUT_VENDOR)/etc/permissions/privapp-permissions-martini.xml
 
 PRODUCT_AAPT_CONFIG := normal
 PRODUCT_AAPT_PREF_CONFIG := xxhdpi
@@ -197,7 +198,7 @@ PRODUCT_PACKAGES += \
     libmmcamera_interface \
     libmmjpeg_interface \
     android.hardware.camera.provider@2.4-impl \
-    camera.hammerhead \
+    camera.martini \
     Snap
 
 PRODUCT_PACKAGES += \

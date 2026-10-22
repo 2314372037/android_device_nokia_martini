@@ -13,7 +13,7 @@
 # limitations under the License.
 
 on init
-    write /sys/class/android_usb/android0/f_rndis/manufacturer LGE
+    write /sys/class/android_usb/android0/f_rndis/manufacturer NOKIA
     write /sys/class/android_usb/android0/f_rndis/vendorID 18D1
     write /sys/class/android_usb/android0/f_rndis/wceis 1
 
@@ -31,7 +31,7 @@ on fs
     setprop sys.usb.ffs.aio_compat 1
 
 # MTP
-on property:sys.usb.config=mtp
+on property:sys.usb.config=mtp && property:sys.usb.configfs=0
     stop adbd
     write /sys/class/android_usb/android0/enable 0
     write /sys/class/android_usb/android0/idVendor 18D1
@@ -43,7 +43,7 @@ on property:sys.usb.config=mtp
     write /sys/class/android_usb/android0/enable 1
     setprop sys.usb.state ${sys.usb.config}
 
-on property:sys.usb.config=mtp,adb
+on property:sys.usb.config=mtp,adb && property:sys.usb.configfs=0
     write /sys/class/android_usb/android0/enable 0
     write /sys/class/android_usb/android0/idVendor 18D1
     write /sys/class/android_usb/android0/idProduct 4EE2
@@ -55,21 +55,8 @@ on property:sys.usb.config=mtp,adb
     start adbd
     setprop sys.usb.state ${sys.usb.config}
 
-# ADB
-on property:sys.usb.config=adb
-    write /sys/class/android_usb/android0/enable 0
-    write /sys/class/android_usb/android0/idVendor 18D1
-    write /sys/class/android_usb/android0/idProduct 4EE2
-    write /sys/class/android_usb/android0/bDeviceClass 0
-    write /sys/class/android_usb/android0/bDeviceSubClass 0
-    write /sys/class/android_usb/android0/bDeviceProtocol 0
-    write /sys/class/android_usb/android0/functions adb
-    write /sys/class/android_usb/android0/enable 1
-    start adbd
-    setprop sys.usb.state ${sys.usb.config}
-
 # rndis
-on property:sys.usb.config=rndis
+on property:sys.usb.config=rndis && property:sys.usb.configfs=0
     stop adbd
     write /sys/class/android_usb/android0/enable 0
     write /sys/class/android_usb/android0/idVendor 18D1
@@ -81,7 +68,7 @@ on property:sys.usb.config=rndis
     write /sys/class/android_usb/android0/enable 1
     setprop sys.usb.state ${sys.usb.config}
 
-on property:sys.usb.config=rndis,adb
+on property:sys.usb.config=rndis,adb && property:sys.usb.configfs=0
     write /sys/class/android_usb/android0/enable 0
     write /sys/class/android_usb/android0/idVendor 18D1
     write /sys/class/android_usb/android0/idProduct 4EE4
@@ -94,7 +81,7 @@ on property:sys.usb.config=rndis,adb
     setprop sys.usb.state ${sys.usb.config}
 
 # PTP
-on property:sys.usb.config=ptp
+on property:sys.usb.config=ptp && property:sys.usb.configfs=0
     stop adbd
     write /sys/class/android_usb/android0/enable 0
     write /sys/class/android_usb/android0/idVendor 18D1
@@ -106,7 +93,7 @@ on property:sys.usb.config=ptp
     write /sys/class/android_usb/android0/enable 1
     setprop sys.usb.state ${sys.usb.config}
 
-on property:sys.usb.config=ptp,adb
+on property:sys.usb.config=ptp,adb && property:sys.usb.configfs=0
     write /sys/class/android_usb/android0/enable 0
     write /sys/class/android_usb/android0/idVendor 18D1
     write /sys/class/android_usb/android0/idProduct 4EE6
@@ -119,7 +106,7 @@ on property:sys.usb.config=ptp,adb
     setprop sys.usb.state ${sys.usb.config}
 
 # USB midi configuration
-on property:sys.usb.config=midi
+on property:sys.usb.config=midi && property:sys.usb.configfs=0
     stop adbd
     write /sys/class/android_usb/android0/enable 0
     write /sys/class/android_usb/android0/idVendor 18d1
@@ -129,7 +116,7 @@ on property:sys.usb.config=midi
     setprop sys.usb.state ${sys.usb.config}
 
 # USB midi configuration, with adb
-on property:sys.usb.config=midi,adb
+on property:sys.usb.config=midi,adb && property:sys.usb.configfs=0
     write /sys/class/android_usb/android0/enable 0
     write /sys/class/android_usb/android0/idVendor 18d1
     write /sys/class/android_usb/android0/idProduct 4ee9

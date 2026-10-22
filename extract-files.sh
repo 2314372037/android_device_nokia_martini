@@ -16,8 +16,8 @@
 
 set -e
 
-VENDOR=lge
-DEVICE=hammerhead
+VENDOR=NOKIA
+DEVICE=martini
 
 # Load extractutils and do some sanity checks
 MY_DIR="${BASH_SOURCE%/*}"

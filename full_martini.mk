@@ -20,12 +20,12 @@
 # Inherit from the common Open Source product configuration
 $(call inherit-product, $(SRC_TARGET_DIR)/product/aosp_base_telephony.mk)
 
-PRODUCT_NAME := full_hammerhead
-PRODUCT_DEVICE := hammerhead
+PRODUCT_NAME := full_martini
+PRODUCT_DEVICE := martini
 PRODUCT_BRAND := Android
-PRODUCT_MODEL := AOSP on HammerHead
-PRODUCT_MANUFACTURER := LGE
+PRODUCT_MODEL := AOSP on martini
+PRODUCT_MANUFACTURER := NOKIA
 PRODUCT_RESTRICT_VENDOR_FILES := false
 
-$(call inherit-product, device/lge/hammerhead/device.mk)
-$(call inherit-product-if-exists, vendor/lge/hammerhead/hammerhead-vendor.mk)
+$(call inherit-product, device/nokia/martini/device.mk)
+$(call inherit-product-if-exists, vendor/nokia/martini/martini-vendor.mk)

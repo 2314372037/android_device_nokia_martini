@@ -1,6 +1,6 @@
 [
  {
-   "repository": "android_kernel_lge_hammerhead",
-   "target_path": "kernel/lge/hammerhead"
+   "repository": "android_kernel_nokia_martini",
+   "target_path": "kernel/nokia/martini"
  }
 ]

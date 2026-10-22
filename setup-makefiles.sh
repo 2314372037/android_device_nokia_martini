@@ -18,8 +18,8 @@ set -e
 
 INITIAL_COPYRIGHT_YEAR=2013
 
-VENDOR=lge
-DEVICE=hammerhead
+VENDOR=nokia
+DEVICE=martini
 
 # Load extractutils and do some sanity checks
 MY_DIR="${BASH_SOURCE%/*}"

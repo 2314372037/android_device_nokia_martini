@@ -14,7 +14,7 @@
 # limitations under the License.
 #
 
-import /vendor/etc/init/hw/init.hammerhead.usb.rc
+import /vendor/etc/init/hw/init.martini.usb.rc
 
 on early-init
     mount debugfs debugfs /sys/kernel/debug
@@ -38,7 +38,7 @@ on init
     write /proc/sys/vm/swappiness 60
 
 on fs
-    mount_all /vendor/etc/fstab.hammerhead
+    mount_all /vendor/etc/fstab.martini
 
     # These directories have different labeling in stock rom.
     # Jumping from stock needs restorecon -F to apply our labeling.
@@ -319,7 +319,7 @@ on property:sys.boot_completed=1
     start mpdecision
 
     # enable zram
-    swapon_all /vendor/etc/fstab.hammerhead
+    swapon_all /vendor/etc/fstab.martini
 
     # enable logging of wake up reasons to kernel logs
     write /sys/module/msm_show_resume_irq/parameters/debug_mask 1

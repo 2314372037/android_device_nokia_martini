@@ -15,9 +15,9 @@
 #
 
 PRODUCT_MAKEFILES := \
-    $(LOCAL_DIR)/lineage_hammerhead.mk
+    $(LOCAL_DIR)/lineage_martini.mk
 
 COMMON_LUNCH_CHOICES := \
-    lineage_hammerhead-user \
-    lineage_hammerhead-userdebug \
-    lineage_hammerhead-eng
+    lineage_martini-user \
+    lineage_martini-userdebug \
+    lineage_martini-eng

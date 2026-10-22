@@ -58,15 +58,20 @@ Light::Light(std::ofstream&& backlight,
              mRLedLocked(std::move(rLedLocked)),
              mGLedLocked(std::move(gLedLocked)),
              mBLedLocked(std::move(bLedLocked)) {
-    auto attnFn(std::bind(&Light::setAttentionLight, this, std::placeholders::_1));
     auto backlightFn(std::bind(&Light::setBacklight, this, std::placeholders::_1));
-    auto batteryFn(std::bind(&Light::setBatteryLight, this, std::placeholders::_1));
-    auto notifFn(std::bind(&Light::setNotificationLight, this, std::placeholders::_1));
-
-    mLights.emplace(std::make_pair(Type::ATTENTION, attnFn));
     mLights.emplace(std::make_pair(Type::BACKLIGHT, backlightFn));
-    mLights.emplace(std::make_pair(Type::BATTERY, batteryFn));
-    mLights.emplace(std::make_pair(Type::NOTIFICATIONS, notifFn));
+
+    if (mRLedBrightness.is_open() && mGLedBrightness.is_open() &&
+        mBLedBrightness.is_open() && mRLedTimeout.is_open() &&
+        mGLedTimeout.is_open() && mBLedTimeout.is_open() &&
+        mRLedLocked.is_open() && mGLedLocked.is_open() && mBLedLocked.is_open()) {
+        auto attnFn(std::bind(&Light::setAttentionLight, this, std::placeholders::_1));
+        auto batteryFn(std::bind(&Light::setBatteryLight, this, std::placeholders::_1));
+        auto notifFn(std::bind(&Light::setNotificationLight, this, std::placeholders::_1));
+        mLights.emplace(std::make_pair(Type::ATTENTION, attnFn));
+        mLights.emplace(std::make_pair(Type::BATTERY, batteryFn));
+        mLights.emplace(std::make_pair(Type::NOTIFICATIONS, notifFn));
+    }
 }
 
 Return<Status> Light::setLight(Type type, const LightState& state) {
