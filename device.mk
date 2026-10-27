@@ -7,9 +7,8 @@
 
 LOCAL_PATH := device/nokia/martini
 
-# 将静态 awk 复制到 ramdisk 对应目录
+# busybox
 PRODUCT_COPY_FILES += $(LOCAL_PATH)/recovery/root/sbin/busybox:recovery/root/sbin/busybox
-PRODUCT_COPY_FILES += $(LOCAL_PATH)/recovery/root/sbin/parted:recovery/root/sbin/parted
 
 # TWRP
 PRODUCT_COPY_FILES += \
