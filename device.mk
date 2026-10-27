@@ -7,9 +7,13 @@
 
 LOCAL_PATH := device/nokia/martini
 
-# busybox
-PRODUCT_COPY_FILES += $(LOCAL_PATH)/recovery/root/sbin/busybox:recovery/root/sbin/busybox
+# Disable ADB authentication in recovery so adb shell works immediately
+PRODUCT_DEFAULT_PROPERTY_OVERRIDES += \
+    ro.secure=0 \
+    ro.adb.secure=0 \
+    ro.debuggable=1 \
+    service.adb.root=1
 
-# TWRP
+# TWRP fstab
 PRODUCT_COPY_FILES += \
-    device/nokia/martini/recovery.fstab:recovery/root/etc/twrp.fstab
+    $(LOCAL_PATH)/recovery.fstab:recovery/root/etc/twrp.fstab
