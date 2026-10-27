@@ -315,8 +315,10 @@ on zygote-start
 
 on property:sys.boot_completed=1
     # start mpdecision
-    rm /data/system/perfd/default_values
-    start mpdecision
+    # rm /data/system/perfd/default_values
+    # start mpdecision
+    # Keep mpdecision disabled until secondary CPU hotplug works on Martini.
+    # Cold boot brings up all four CPUs, but re-online times out after offlining.
 
     # enable zram
     swapon_all /vendor/etc/fstab.martini
@@ -341,11 +343,6 @@ service qmuxd /vendor/bin/qmuxd
 service netmgrd /vendor/bin/netmgrd
     class main
     group radio system wakelock
-
-service sensors /vendor/bin/sensors.qcom
-    class main
-    user root
-    group root wakelock
 
 service irsc_util /vendor/bin/irsc_util "/vendor/etc/sec_config"
     class main
@@ -378,11 +375,6 @@ service charger /system/bin/charger
     capabilities SYS_BOOT
     seclabel u:r:charger:s0
 
-service qcamerasvr /vendor/bin/mm-qcamera-daemon
-    class late_start
-    user camera
-    group camera system inet input graphics gps
-
 service mpdecision /vendor/bin/mpdecision --avg_comp
    class late_start
    user root
@@ -400,16 +392,6 @@ service vss_init /vendor/bin/vss_init
     user root
     group root
     disabled
-
-service vendor.bluetooth_loader /vendor/bin/bluetooth_loader
-    class main
-    user bluetooth
-    group system bluetooth
-    oneshot
-
-on property:init.svc.vendor.bluetooth_loader=stopped
-    chmod 0644 /data/misc/bluetooth/.bdaddr
-    chown bluetooth bluetooth /data/misc/bluetooth/.bdaddr
 
 on property:apexd.status=ready
     mount none /vendor/etc/swcodec/ld.config.txt /apex/com.android.media.swcodec/etc/ld.config.txt bind
