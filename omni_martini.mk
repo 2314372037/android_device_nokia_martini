@@ -14,6 +14,16 @@ $(call inherit-product, vendor/omni/config/common.mk)
 # Inherit from martini device
 $(call inherit-product, device/nokia/martini/device.mk)
 
+# Remove ro.adb.secure=1 set by vendor/omni/config/common.mk
+PRODUCT_SYSTEM_DEFAULT_PROPERTIES := \
+    $(filter-out ro.adb.secure=%,$(PRODUCT_SYSTEM_DEFAULT_PROPERTIES)) \
+    ro.adb.secure=0
+
+PRODUCT_DEFAULT_PROPERTY_OVERRIDES := \
+    $(filter-out ro.adb.secure=% ro.secure=%,$(PRODUCT_DEFAULT_PROPERTY_OVERRIDES)) \
+    ro.adb.secure=0 \
+    ro.secure=0
+
 PRODUCT_DEVICE := martini
 PRODUCT_NAME := omni_martini
 PRODUCT_BRAND := nokia

@@ -14,6 +14,16 @@ $(call inherit-product, vendor/omni/config/common.mk)
 # Inherit from martini device
 $(call inherit-product, device/nokia/martini/device.mk)
 
+# Remove ro.adb.secure=1 set by vendor/omni/config/common.mk
+PRODUCT_SYSTEM_DEFAULT_PROPERTIES := \
+    $(filter-out ro.adb.secure=%,$(PRODUCT_SYSTEM_DEFAULT_PROPERTIES)) \
+    ro.adb.secure=0
+
+PRODUCT_DEFAULT_PROPERTY_OVERRIDES := \
+    $(filter-out ro.adb.secure=% ro.secure=%,$(PRODUCT_DEFAULT_PROPERTY_OVERRIDES)) \
+    ro.adb.secure=0 \
+    ro.secure=0
+
 PRODUCT_DEVICE := martini
 PRODUCT_NAME := twrp_martini
 PRODUCT_BRAND := nokia
@@ -23,6 +33,6 @@ PRODUCT_MANUFACTURER := nokia
 PRODUCT_GMS_CLIENTID_BASE := android-google
 
 PRODUCT_BUILD_PROP_OVERRIDES += \
-    PRIVATE_BUILD_DESC="twrp_martini-eng 5.1.1 LYZ28N 27 test-keys"
+    PRIVATE_BUILD_DESC="twrp_martini-eng 9 PQ3A.190801.002 27 test-keys"
 
-BUILD_FINGERPRINT := google/twrp_martini/martini:5.1.1/LYZ28N/27:eng/test-keys
+BUILD_FINGERPRINT := google/twrp_martini/martini:9/PQ3A.190801.002/27:eng/test-keys
