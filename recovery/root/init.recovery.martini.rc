@@ -13,8 +13,21 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 #
+
+import /init.recovery.usb.rc
+
 on early-init
-	ln -s /system/vendor /vendor
+    symlink /system/vendor /vendor
+
+on fs
+    wait /dev/block/platform/msm_sdcc.1
+    symlink /dev/block/platform/msm_sdcc.1 /dev/block/bootdevice
+
+    # Required for 3.4 kernel FunctionFS ADB compatibility on Android 9+
+    setprop sys.usb.ffs.aio_compat 1
+    setprop persist.adb.nonblocking_ffs 0
+    setprop ro.adb.nonblocking_ffs 0
+
 on post-fs-data
     write /sys/devices/system/cpu/cpu1/online 1
     write /sys/devices/system/cpu/cpu2/online 1
@@ -23,6 +36,3 @@ on post-fs-data
     write /sys/devices/system/cpu/cpu1/cpufreq/scaling_governor "interactive"
     write /sys/devices/system/cpu/cpu2/cpufreq/scaling_governor "interactive"
     write /sys/devices/system/cpu/cpu3/cpufreq/scaling_governor "interactive"
-    write /sys/devices/system/cpu/cpu1/online 0
-    write /sys/devices/system/cpu/cpu2/online 0
-    write /sys/devices/system/cpu/cpu3/online 0

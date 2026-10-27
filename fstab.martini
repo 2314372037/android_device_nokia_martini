@@ -4,10 +4,14 @@
 # specify MF_CHECK, and must come before any filesystems that do specify MF_CHECK
 
 /dev/block/platform/msm_sdcc.1/by-name/system       /system         ext4    ro,barrier=1                                                    wait
-/dev/block/platform/msm_sdcc.1/by-name/vendor       /vendor         ext4    ro,barrier=1                                                    wait,verify=/dev/block/platform/msm_sdcc.1/by-name/metadata
-/dev/block/platform/msm_sdcc.1/by-name/userdata     /data           ext4    noatime,nosuid,nodev,barrier=1,data=ordered,nomblk_io_submit,noauto_da_alloc,errors=panic wait,check,encryptable=/dev/block/platform/msm_sdcc.1/by-name/metadata
+# The kernel reports both p44 and p47 as userdata. Coldboot can link
+# by-name/userdata to either one; p44 is the working Android data partition.
+/dev/block/mmcblk0p44                              /data           ext4    noatime,nosuid,nodev,barrier=1,data=ordered,nomblk_io_submit,noauto_da_alloc,errors=panic wait,check,encryptable=/dev/block/platform/msm_sdcc.1/by-name/metadata
+/dev/block/mmcblk0p44                              /data           f2fs    rw,noatime,nosuid,nodev,inline_xattr       wait,check,encryptable=/dev/block/platform/msm_sdcc.1/by-name/metadata
 /dev/block/platform/msm_sdcc.1/by-name/cache        /cache          ext4    noatime,nosuid,nodev,barrier=1,data=ordered,nomblk_io_submit,noauto_da_alloc,errors=panic wait,check
-/dev/block/platform/msm_sdcc.1/by-name/persist      /persist        ext4    nosuid,nodev,barrier=1,data=ordered,nodelalloc,nomblk_io_submit,errors=panic wait,notrim
+/dev/block/platform/msm_sdcc.1/by-name/cache        /cache          f2fs    rw,noatime,nosuid,nodev,inline_xattr       wait,check
+# A missing/incompatible persist filesystem must not suppress the /data crypto state.
+/dev/block/platform/msm_sdcc.1/by-name/persist      /persist        ext4    noatime,nosuid,nodev,barrier=1,data=ordered,nodelalloc,nomblk_io_submit,errors=panic wait,notrim,nofail
 /dev/block/platform/msm_sdcc.1/by-name/modem        /firmware       vfat    ro,shortname=lower,uid=1000,gid=1000,dmask=227,fmask=337,context=u:object_r:firmware_file:s0        wait
 /dev/block/platform/msm_sdcc.1/by-name/boot         /boot           emmc    defaults                                                        defaults
 /dev/block/platform/msm_sdcc.1/by-name/recovery     /recovery       emmc    defaults                                                        defaults
@@ -19,20 +23,4 @@
 /dev/block/platform/msm_sdcc.1/by-name/sdi          /sdi            emmc    defaults                                                        defaults
 /dev/block/platform/msm_sdcc.1/by-name/aboot        /aboot          emmc    defaults                                                        defaults
 /dev/block/platform/msm_sdcc.1/by-name/imgdata      /imgdata        emmc    defaults                                                        defaults
-/dev/block/platform/msm_sdcc.1/by-name/pmic         /pmic           emmc    defaults                                                        defaults
-/dev/block/platform/msm_sdcc.1/by-name/hyp          /hyp            emmc    defaults                                                        defaults
-/dev/block/platform/msm_sdcc.1/by-name/sec          /sec            emmc    defaults                                                        defaults
-/dev/block/platform/msm_sdcc.1/by-name/keymaster    /keymaster      emmc    defaults                                                        defaults
-/dev/block/platform/msm_sdcc.1/by-name/cmnlib       /cmnlib         emmc    defaults                                                        defaults
-/dev/block/platform/msm_sdcc.1/by-name/persistent   /persistent     emmc    defaults                                                        defaults
-/devices/soc.0/f9200000.ssusb/f9200000.dwc3/xhci-hcd.0.auto/usb*    auto      auto    defaults                                                        voldmanaged=usb:auto
-/dev/block/zram0                                              none            swap    defaults                                                        zramsize=533413200,notrim
-/dev/block/platform/msm_sdcc.1/by-name/sbl1bak      /sbl1bak        emmc    defaults                                                        defaults
-/dev/block/platform/msm_sdcc.1/by-name/tzbak        /tzbak          emmc    defaults                                                        defaults
-/dev/block/platform/msm_sdcc.1/by-name/rpmbak       /rpmbak         emmc    defaults                                                        defaults
-/dev/block/platform/msm_sdcc.1/by-name/abootbak     /abootbak       emmc    defaults                                                        defaults
-/dev/block/platform/msm_sdcc.1/by-name/pmicbak      /pmicbak        emmc    defaults                                                        defaults
-/dev/block/platform/msm_sdcc.1/by-name/hypbak       /hypbak         emmc    defaults                                                        defaults
-/dev/block/platform/msm_sdcc.1/by-name/keymasterbak /keymasterbak   emmc    defaults                                                        defaults
-/dev/block/platform/msm_sdcc.1/by-name/cmnlibbak    /cmnlibbak      emmc    defaults                                                        defaults
-/devices/soc.0/f98a4900.sdhci/mmc_host*                       auto            auto    defaults                                                        voldmanaged=sdcard1:auto,encryptable=footer
+/devices/platform/xhci-hcd/usb*                     auto            auto    defaults                                                        voldmanaged=usb:auto

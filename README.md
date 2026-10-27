@@ -2,7 +2,7 @@
 
 
 ```
-repo init -u git://github.com/minimal-manifest-twrp/platform_manifest_twrp_omni.git -b twrp-6.0
+repo init -u git://github.com/minimal-manifest-twrp/platform_manifest_twrp_omni.git -b twrp-9.0
 repo sync
 ```
 
@@ -10,7 +10,6 @@ To Build:
 ```
 cd <source-dir>
 source build/envsetup.sh
-lunch twrp_martini-userdebug
-make clean
+lunch omni_martini-eng
 mka recoveryimage
 ```
