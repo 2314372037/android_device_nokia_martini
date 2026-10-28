@@ -439,8 +439,27 @@ PRODUCT_PROPERTY_OVERRIDES += \
 # Device was launched with K
 $(call inherit-product, $(SRC_TARGET_DIR)/product/product_launched_with_k.mk)
 
-# Broadcom WIFI driver
-$(call inherit-product-if-exists, $(LOCAL_PATH)/wlan/bcm.mk)
+# Qualcomm WCNSS WiFi
+PRODUCT_PACKAGES += \
+    wcnss_service
+
+# WiFi firmware and configuration files
+PRODUCT_COPY_FILES += \
+    $(LOCAL_PATH)/wifi/firmware/wcnss.mdt:$(TARGET_COPY_OUT_VENDOR)/firmware/wcnss.mdt \
+    $(LOCAL_PATH)/wifi/firmware/wcnss.b00:$(TARGET_COPY_OUT_VENDOR)/firmware/wcnss.b00 \
+    $(LOCAL_PATH)/wifi/firmware/wcnss.b01:$(TARGET_COPY_OUT_VENDOR)/firmware/wcnss.b01 \
+    $(LOCAL_PATH)/wifi/firmware/wcnss.b02:$(TARGET_COPY_OUT_VENDOR)/firmware/wcnss.b02 \
+    $(LOCAL_PATH)/wifi/firmware/wcnss.b04:$(TARGET_COPY_OUT_VENDOR)/firmware/wcnss.b04 \
+    $(LOCAL_PATH)/wifi/firmware/wcnss.b06:$(TARGET_COPY_OUT_VENDOR)/firmware/wcnss.b06 \
+    $(LOCAL_PATH)/wifi/firmware/wcnss.b07:$(TARGET_COPY_OUT_VENDOR)/firmware/wcnss.b07 \
+    $(LOCAL_PATH)/wifi/firmware/wcnss.b08:$(TARGET_COPY_OUT_VENDOR)/firmware/wcnss.b08 \
+    $(LOCAL_PATH)/wifi/firmware/wcnss.b09:$(TARGET_COPY_OUT_VENDOR)/firmware/wcnss.b09 \
+    $(LOCAL_PATH)/wifi/WCNSS_cfg.dat:$(TARGET_COPY_OUT_VENDOR)/firmware/wlan/prima/WCNSS_cfg.dat \
+    $(LOCAL_PATH)/wifi/WCNSS_qcom_cfg.ini:$(TARGET_COPY_OUT_VENDOR)/firmware/wlan/prima/WCNSS_qcom_cfg.ini \
+    $(LOCAL_PATH)/wifi/WCNSS_qcom_wlan_nv.bin:$(TARGET_COPY_OUT_VENDOR)/firmware/wlan/prima/WCNSS_qcom_wlan_nv.bin \
+    $(LOCAL_PATH)/wifi/WCNSS_qcom_cfg.ini:$(TARGET_COPY_OUT_VENDOR)/etc/wifi/WCNSS_qcom_cfg.ini \
+    $(LOCAL_PATH)/wifi/wpa_supplicant_overlay.conf:$(TARGET_COPY_OUT_VENDOR)/etc/wifi/wpa_supplicant_overlay.conf \
+    $(LOCAL_PATH)/wifi/p2p_supplicant_overlay.conf:$(TARGET_COPY_OUT_VENDOR)/etc/wifi/p2p_supplicant_overlay.conf
 
 # Vendor security patch level
 PRODUCT_PROPERTY_OVERRIDES += \

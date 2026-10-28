@@ -44,3 +44,8 @@
 
 # SSR devices
 /dev/subsys_*             0640   system     system
+
+# CNSS / WCNSS
+/dev/wcnss_wlan           0660   system     system
+/dev/wcnss_ctrl           0660   system     system
+

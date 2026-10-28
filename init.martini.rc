@@ -134,12 +134,8 @@ on boot
     write /sys/bus/msm_subsys/devices/subsys2/restart_level "related"
 
     # Wifi firmware reload path
-    chown wifi wifi /sys/module/bcmdhd/parameters/firmware_path
-    chmod 0644 /sys/module/bcmdhd/parameters/firmware_path
-
-    # Wifi nvram reload path
-    chown wifi wifi /sys/module/bcmdhd/parameters/nvram_path
-    chmod 0644 /sys/module/bcmdhd/parameters/nvram_path
+    chown wifi wifi /sys/module/wlan/parameters/fwpath
+    chmod 0644 /sys/module/wlan/parameters/fwpath
 
     # Adaptive LMK
     write /sys/module/lowmemorykiller/parameters/enable_adaptive_lmk 1
@@ -225,6 +221,11 @@ on post-fs-data
     chown wifi system /persist/wifi/.macaddr
     chmod 0660 /persist/wifi/.macaddr
 
+    # Create the directories used by the Wireless subsystem
+    mkdir /data/vendor/wifi 0770 wifi wifi
+    mkdir /data/vendor/wifi/wpa 0770 wifi wifi
+    mkdir /data/vendor/wifi/wpa/sockets 0770 wifi wifi
+
     # bluetooth (persist)
     chown bluetooth system /persist/bluetooth
     chmod 0770 /persist/bluetooth
@@ -260,9 +261,7 @@ on post-fs-data
     mkdir /data/misc/radio 0770 radio radio
     symlink /vendor/etc/qcril.db /data/misc/radio/qcril.db
 
-    # Make sure the default Wifi firmware and nvram are loaded
-    write /sys/module/bcmdhd/parameters/firmware_path "/vendor/firmware/fw_bcmdhd.bin"
-    write /sys/module/bcmdhd/parameters/nvram_path "/vendor/etc/wifi/bcmdhd.cal"
+
 
     # keep that at the end of on post-fs-data
     setprop vold.post_fs_data_done 1
@@ -347,6 +346,12 @@ service netmgrd /vendor/bin/netmgrd
 service irsc_util /vendor/bin/irsc_util "/vendor/etc/sec_config"
     class main
     user root
+    oneshot
+
+service wcnss-service /vendor/bin/wcnss_service
+    class main
+    user system
+    group system wifi radio
     oneshot
 
 service wpa_supplicant /vendor/bin/hw/wpa_supplicant \
