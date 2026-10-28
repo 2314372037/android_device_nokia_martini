@@ -129,7 +129,8 @@
 /sys/devices/platform/bluetooth_rfkill/rfkill/rfkill0/state u:object_r:sysfs_bluetooth_writable:s0
 
 # sysfs files used by wifi
-/sys/module/bcmdhd/parameters/firmware_path u:object_r:sysfs_wlan_fwpath:s0
+/sys/module/wlan/parameters/fwpath          u:object_r:sysfs_wlan_fwpath:s0
+
 
 # sysfs - power_supply
 /sys/devices/f9923000\.i2c/i2c-84/84-0036/power_supply/battery(/.*)? u:object_r:sysfs_batteryinfo:s0
