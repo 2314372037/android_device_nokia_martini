@@ -314,11 +314,25 @@
 
     <path name="speaker">
         <ctl name="SLIM RX1 MUX" value="AIF1_PB" />
-        <ctl name="SLIM_0_RX Channels" value="One" />
-        <ctl name="RX7 MIX1 INP1" value="RX1" />
-        <ctl name="RX7 Digital Volume" value="88" />
-        <ctl name="COMP0 Switch" value="1" />
-        <ctl name="SPK DRV Volume" value="6" />
+        <ctl name="SLIM RX2 MUX" value="AIF1_PB" />
+        <ctl name="SLIM_0_RX Channels" value="Two" />
+        <ctl name="RX1 MIX1 INP1" value="RX1" />
+        <ctl name="RX2 MIX1 INP1" value="RX2" />
+        <ctl name="CLASS_H_DSM MUX" value="DSM_HPHL_RX1" />
+        <ctl name="DAC1 Switch" value="1" />
+        <ctl name="HPHL DAC Switch" value="1" />
+        <ctl name="COMP1 Switch" value="1" />
+        <ctl name="RX1 Digital Volume" value="85" />
+        <ctl name="RX2 Digital Volume" value="85" />
+        <ctl name="EAR PA Gain" value="POS_6_DB" />
+        <ctl name="HPHL Volume" value="15" />
+        <ctl name="HPHR Volume" value="15" />
+        <!-- Lumia 930 Audio Haptics (N2183 Vibrator) -->
+        <ctl name="RX5 MIX1 INP1" value="RX1" />
+        <ctl name="RDAC7 MUX Mux" value="DEM5_INV" />
+        <ctl name="RX5 Digital Volume" value="84" />
+        <ctl name="LINEOUT2 Volume" value="12" />
+        <ctl name="LINEOUT4 Volume" value="12" />
     </path>
 
     <path name="speaker-mic">

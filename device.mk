@@ -44,6 +44,7 @@ PRODUCT_COPY_FILES += \
     $(LOCAL_PATH)/gpio-keys.kcm:$(TARGET_COPY_OUT_VENDOR)/usr/keychars/gpio-keys.kcm \
     $(LOCAL_PATH)/qpnp_pon.kl:$(TARGET_COPY_OUT_VENDOR)/usr/keylayout/qpnp_pon.kl \
     $(LOCAL_PATH)/qpnp_pon.kcm:$(TARGET_COPY_OUT_VENDOR)/usr/keychars/qpnp_pon.kcm \
+    $(LOCAL_PATH)/synaptics_rmi4_i2c.kl:$(TARGET_COPY_OUT_VENDOR)/usr/keylayout/synaptics_rmi4_i2c.kl \
     $(LOCAL_PATH)/Button_Jack.kl:$(TARGET_COPY_OUT_VENDOR)/usr/keylayout/msm8974-taiko-mtp-snd-card_Button_Jack.kl \
     $(LOCAL_PATH)/Button_Jack.kcm:$(TARGET_COPY_OUT_VENDOR)/usr/keychars/msm8974-taiko-mtp-snd-card_Button_Jack.kcm \
     $(LOCAL_PATH)/hs_detect.kl:$(TARGET_COPY_OUT_VENDOR)/usr/keylayout/hs_detect.kl \
@@ -51,7 +52,8 @@ PRODUCT_COPY_FILES += \
 
 # Prebuilt input device calibration files
 PRODUCT_COPY_FILES += \
-    $(LOCAL_PATH)/touch_dev.idc:$(TARGET_COPY_OUT_VENDOR)/usr/idc/touch_dev.idc
+    $(LOCAL_PATH)/touch_dev.idc:$(TARGET_COPY_OUT_VENDOR)/usr/idc/touch_dev.idc \
+    $(LOCAL_PATH)/synaptics_rmi4_i2c.idc:$(TARGET_COPY_OUT_VENDOR)/usr/idc/synaptics_rmi4_i2c.idc
 
 PRODUCT_COPY_FILES += \
     frameworks/av/services/audiopolicy/config/a2dp_audio_policy_configuration.xml:$(TARGET_COPY_OUT_VENDOR)/etc/a2dp_audio_policy_configuration.xml \
@@ -88,12 +90,7 @@ PRODUCT_COPY_FILES += \
 PRODUCT_COPY_FILES += \
     $(LOCAL_PATH)/sec_config:$(TARGET_COPY_OUT_VENDOR)/etc/sec_config
 
-# NFC access control + feature files + configuration
-PRODUCT_COPY_FILES += \
-    frameworks/native/data/etc/android.hardware.nfc.xml:$(TARGET_COPY_OUT_VENDOR)/etc/permissions/android.hardware.nfc.xml \
-    frameworks/native/data/etc/android.hardware.nfc.hce.xml:$(TARGET_COPY_OUT_VENDOR)/etc/permissions/android.hardware.nfc.hce.xml \
-    $(LOCAL_PATH)/nfc/libnfc-nci.conf:$(TARGET_COPY_OUT_VENDOR)/etc/libnfc-nci.conf \
-    $(LOCAL_PATH)/nfc/libnfc-nci-20791b05.conf:$(TARGET_COPY_OUT_VENDOR)/etc/libnfc-nci-20791b05.conf
+
 
 # Privapp Whitelist
 PRODUCT_COPY_FILES += \
@@ -118,6 +115,8 @@ PRODUCT_PACKAGES += \
     wificond \
     wpa_supplicant \
     wpa_supplicant.conf
+
+
 
 # LiveDisplay
 PRODUCT_PACKAGES += \
@@ -170,7 +169,12 @@ PRODUCT_PACKAGES += \
     audio.a2dp.default \
     audio.usb.default \
     audio.r_submix.default \
-    libaudio-resampler
+    libaudio-resampler \
+    tinymix
+
+# Vibrator
+PRODUCT_PACKAGES += \
+    android.hardware.vibrator@1.1-service.hh
 
 # Audio effects
 PRODUCT_PACKAGES += \
@@ -203,12 +207,7 @@ PRODUCT_PACKAGES += \
     gps.msm8974
 
 # NFC packages
-PRODUCT_PACKAGES += \
-    android.hardware.nfc@1.0-impl-bcm \
-    android.hardware.nfc@1.0-service \
-    nfc_nci.bcm2079x.default \
-    NfcNci \
-    Tag
+
 
 # Recorder
 PRODUCT_PACKAGES += \
@@ -280,10 +279,6 @@ PRODUCT_PROPERTY_OVERRIDES += \
 PRODUCT_PACKAGES += \
     vendor.lineage.fastcharge@1.0-service.hh
 
-# Shims
-PRODUCT_PACKAGES += \
-    libshim_ril
-
 # Set sensor streaming rate
 PRODUCT_PROPERTY_OVERRIDES += \
     ro.qti.sensors.max_geomag_rotv=60 \
@@ -319,10 +314,6 @@ PRODUCT_PROPERTY_OVERRIDES += \
     debug.qualcomm.sns.daemon=w \
     debug.qualcomm.sns.libsensor1=w
 
-# Ril sends only one RIL_UNSOL_CALL_RING, so set call_ring.multiple to false
-PRODUCT_PROPERTY_OVERRIDES += \
-    ro.telephony.call_ring.multiple=0
-
 PRODUCT_PROPERTY_OVERRIDES += \
     wifi.interface=wlan0
 
@@ -333,33 +324,6 @@ PRODUCT_PROPERTY_OVERRIDES += \
 # Enable AAC 5.1 output
 PRODUCT_PROPERTY_OVERRIDES += \
     media.aac_51_output_enabled=true
-
-# Do not power down SIM card when modem is sent to Low Power Mode.
-PRODUCT_PROPERTY_OVERRIDES += \
-    persist.radio.apm_sim_not_pwdn=1
-
-# LTE, CDMA, GSM/WCDMA
-PRODUCT_PROPERTY_OVERRIDES += \
-    ro.ril.force_eri_from_xml=true \
-    ro.telephony.default_network=10 \
-    telephony.lteOnCdmaDevice=1 \
-    persist.radio.mode_pref_nv10=1
-
-# update 1x signal strength after 2s
-PRODUCT_DEFAULT_PROPERTY_OVERRIDES += \
-    persist.radio.snapshot_enabled=1 \
-    persist.radio.snapshot_timer=2
-
-PRODUCT_DEFAULT_PROPERTY_OVERRIDES += \
-    persist.radio.use_cc_names=true
-
-# If data_no_toggle is 1 then active and dormancy enable at all times.
-# If data_no_toggle is 0 there are no reports if the screen is off.
-# Leaving this property unset defaults to '0'
-# Due to RIL changes, setting this to 1 now enables toggling of limited
-# system indications and does not impact data state changes.
-PRODUCT_PROPERTY_OVERRIDES += \
-    persist.radio.data_no_toggle=1
 
 # Audio Configuration
 PRODUCT_PROPERTY_OVERRIDES += \
@@ -374,26 +338,9 @@ PRODUCT_PROPERTY_OVERRIDES += \
     ro.config.vc_call_vol_steps=7 \
     ro.config.media_vol_steps=25
 
-# Setup custom emergency number list based on the MCC. This is needed by RIL
-PRODUCT_PROPERTY_OVERRIDES += \
-    persist.radio.custom_ecc=1
-
-# Request modem to send PLMN name always irrespective
-# of display condition in EFSPN.
-# RIL uses this property.
-PRODUCT_PROPERTY_OVERRIDES += \
-    persist.radio.always_send_plmn=true
-
-PRODUCT_DEFAULT_PROPERTY_OVERRIDES += \
-    rild.libpath=/vendor/lib/libril-qc-qmi-1.so
-
 # Allow tethering without provisioning app
 PRODUCT_PROPERTY_OVERRIDES += \
     net.tethering.noprovisioning=true
-
-# Camera configuration
-PRODUCT_DEFAULT_PROPERTY_OVERRIDES += \
-    camera.disable_zsl_mode=1
 
 # SurfaceFlinger
 PRODUCT_DEFAULT_PROPERTY_OVERRIDES += \
