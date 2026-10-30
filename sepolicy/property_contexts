@@ -3,3 +3,7 @@ persist.vendor.timeadjust   u:object_r:vendor_timekeep_prop:s0
 
 # FastCharge
 persist.vendor.fastcharge.enabled     u:object_r:fastcharge_prop:s0
+
+# Bluetooth
+ro.qualcomm.bt.hci_transport          u:object_r:exported_bluetooth_prop:s0 exact string
+qcom.bluetooth.soc                    u:object_r:exported_bluetooth_prop:s0 exact string

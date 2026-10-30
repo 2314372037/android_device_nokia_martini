@@ -54,10 +54,8 @@ MAX_EGL_CACHE_SIZE := 2048*1024
 BOARD_USES_ALSA_AUDIO := true
 USE_XML_AUDIO_POLICY_CONF := 1
 
-BOARD_HAVE_BLUETOOTH := true
-BOARD_HAVE_BLUETOOTH_BCM := true
-BOARD_CUSTOM_BT_CONFIG := device/nokia/martini/bluetooth/configs/vnd_martini.txt
-BOARD_BLUETOOTH_BDROID_BUILDCFG_INCLUDE_DIR := device/nokia/martini/bluetooth/configs
+BOARD_HAVE_BLUETOOTH := false
+USE_CAMERA_STUB := true
 
 # Filesystem
 TARGET_FS_CONFIG_GEN := device/nokia/martini/config.fs
@@ -152,8 +150,8 @@ SELINUX_IGNORE_NEVERALLOWS := true
 endif
 
 # Shims
-TARGET_LD_SHIM_LIBS := \
-    /vendor/lib/libril-qc-qmi-1.so|libshim_ril.so
+# TARGET_LD_SHIM_LIBS := \
+#     /vendor/lib/libril-qc-qmi-1.so|libshim_ril.so
 
 # SVELTE
 MALLOC_SVELTE := true

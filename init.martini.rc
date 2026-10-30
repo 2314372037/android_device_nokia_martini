@@ -37,6 +37,12 @@ on init
     write /proc/sys/vm/page-cluster 0
     write /proc/sys/vm/swappiness 60
 
+    # Cap maximum CPU frequency early to prevent UVLO brownout on aging battery
+    write /sys/devices/system/cpu/cpu0/cpufreq/scaling_max_freq 1728000
+    write /sys/devices/system/cpu/cpu1/cpufreq/scaling_max_freq 1728000
+    write /sys/devices/system/cpu/cpu2/cpufreq/scaling_max_freq 1728000
+    write /sys/devices/system/cpu/cpu3/cpufreq/scaling_max_freq 1728000
+
 on fs
     mount_all /vendor/etc/fstab.martini
 
@@ -68,28 +74,28 @@ on early-boot
     start vendor.qseecomd
 
 on boot
-    # bluetooth
-    chown bluetooth bluetooth /sys/class/rfkill/rfkill0/type
-    chown bluetooth bluetooth /sys/class/rfkill/rfkill0/state
-    chmod 0660 /sys/class/rfkill/rfkill0/state
+    # bluetooth (disabled)
+    # chown bluetooth bluetooth /sys/class/rfkill/rfkill0/type
+    # chown bluetooth bluetooth /sys/class/rfkill/rfkill0/state
+    # chmod 0660 /sys/class/rfkill/rfkill0/state
 
-    # bluetooth LPM
-    chown bluetooth bluetooth /proc/bluetooth/sleep/lpm
-    chown bluetooth bluetooth /proc/bluetooth/sleep/btwrite
+    # bluetooth LPM (disabled)
+    # chown bluetooth bluetooth /proc/bluetooth/sleep/lpm
+    # chown bluetooth bluetooth /proc/bluetooth/sleep/btwrite
 
-    #bluetooth UART dev
-    chown bluetooth bluetooth /sys/devices/platform/msm_serial_hs.0/clock
-    chmod 0660 /sys/devices/platform/msm_serial_hs.0/clock
+    # bluetooth UART dev (disabled)
+    # chown bluetooth bluetooth /sys/devices/platform/msm_serial_hs.0/clock
+    # chmod 0660 /sys/devices/platform/msm_serial_hs.0/clock
 
-    #Create QMUX deamon socket area
-    mkdir /dev/socket/qmux_radio 0770 radio radio
-    chmod 2770 /dev/socket/qmux_radio
-    mkdir /dev/socket/qmux_audio 0770 media audio
-    chmod 2770 /dev/socket/qmux_audio
-    mkdir /dev/socket/qmux_bluetooth 0770 bluetooth bluetooth
-    chmod 2770 /dev/socket/qmux_bluetooth
-    mkdir /dev/socket/qmux_gps 0770 gps gps
-    chmod 2770 /dev/socket/qmux_gps
+    # QMUX sockets disabled
+    # mkdir /dev/socket/qmux_radio 0770 radio radio
+    # chmod 2770 /dev/socket/qmux_radio
+    # mkdir /dev/socket/qmux_audio 0770 media audio
+    # chmod 2770 /dev/socket/qmux_audio
+    # mkdir /dev/socket/qmux_bluetooth 0770 bluetooth bluetooth
+    # chmod 2770 /dev/socket/qmux_bluetooth
+    # mkdir /dev/socket/qmux_gps 0770 gps gps
+    # chmod 2770 /dev/socket/qmux_gps
 
     # Camera Recording
     mkdir /dev/video
@@ -191,7 +197,7 @@ on boot
     write /sys/devices/system/cpu/cpufreq/interactive/go_hispeed_load 99
     write /sys/devices/system/cpu/cpufreq/interactive/hispeed_freq 1497600
     write /sys/devices/system/cpu/cpufreq/interactive/io_is_busy 1
-    write /sys/devices/system/cpu/cpufreq/interactive/target_loads "85 1500000:90 1800000:70"
+    write /sys/devices/system/cpu/cpufreq/interactive/target_loads "85 1500000:90"
     write /sys/devices/system/cpu/cpufreq/interactive/min_sample_time 40000
     write /sys/devices/system/cpu/cpufreq/interactive/timer_rate 30000
     write /sys/devices/system/cpu/cpufreq/interactive/sampling_down_factor 100000
@@ -199,6 +205,10 @@ on boot
     write /sys/devices/system/cpu/cpu1/cpufreq/scaling_min_freq 300000
     write /sys/devices/system/cpu/cpu2/cpufreq/scaling_min_freq 300000
     write /sys/devices/system/cpu/cpu3/cpufreq/scaling_min_freq 300000
+    write /sys/devices/system/cpu/cpu0/cpufreq/scaling_max_freq 1728000
+    write /sys/devices/system/cpu/cpu1/cpufreq/scaling_max_freq 1728000
+    write /sys/devices/system/cpu/cpu2/cpufreq/scaling_max_freq 1728000
+    write /sys/devices/system/cpu/cpu3/cpufreq/scaling_max_freq 1728000
 
     # Enable core control
     write /sys/module/msm_thermal/core_control/enabled 1
@@ -207,7 +217,7 @@ on boot
     write /sys/module/cpu_boost/parameters/input_boost_enabled 1
     write /sys/module/cpu_boost/parameters/boost_ms 20
     write /sys/module/cpu_boost/parameters/sync_threshold 1728000
-    write /sys/module/cpu_boost/parameters/input_boost_freq 1497600
+    write /sys/module/cpu_boost/parameters/input_boost_freq 1190400
     write /sys/module/cpu_boost/parameters/input_boost_ms 40
 
 on post-fs-data
@@ -257,9 +267,9 @@ on post-fs-data
     write /persist/sensors/sensors_settings 1
     chmod 660 /persist/sensors/sensors_settings
 
-    # Ecc_Handler qcril.db
-    mkdir /data/misc/radio 0770 radio radio
-    symlink /vendor/etc/qcril.db /data/misc/radio/qcril.db
+    # Ecc_Handler qcril.db (disabled)
+    # mkdir /data/misc/radio 0770 radio radio
+    # symlink /vendor/etc/qcril.db /data/misc/radio/qcril.db
 
 
 
@@ -328,25 +338,25 @@ on property:sys.boot_completed=1
     # keep that at the end of sys.boot_completed
     setprop vendor.post_boot.parsed 1
 
-service rmt_storage /vendor/bin/rmt_storage
-    class core
-    user root
-    group system wakelock
-    shutdown critical
+# service rmt_storage /vendor/bin/rmt_storage
+#     class core
+#     user root
+#     group system wakelock
+#     shutdown critical
 
-service qmuxd /vendor/bin/qmuxd
-    class main
-    user radio
-    group radio audio bluetooth wakelock gps
+# service qmuxd /vendor/bin/qmuxd
+#     class main
+#     user radio
+#     group radio audio bluetooth wakelock gps
 
-service netmgrd /vendor/bin/netmgrd
-    class main
-    group radio system wakelock
+# service netmgrd /vendor/bin/netmgrd
+#     class main
+#     group radio system wakelock
 
-service irsc_util /vendor/bin/irsc_util "/vendor/etc/sec_config"
-    class main
-    user root
-    oneshot
+# service irsc_util /vendor/bin/irsc_util "/vendor/etc/sec_config"
+#     class main
+#     user root
+#     oneshot
 
 service wcnss-service /vendor/bin/wcnss_service
     class main
@@ -400,3 +410,15 @@ service vss_init /vendor/bin/vss_init
 
 on property:apexd.status=ready
     mount none /vendor/etc/swcodec/ld.config.txt /apex/com.android.media.swcodec/etc/ld.config.txt bind
+
+# service bluetooth_loader /vendor/bin/bluetooth_loader
+#     class main
+#     user bluetooth
+#     group bluetooth system
+#     oneshot
+
+# on property:bluetooth.hciattach=true
+#     setprop bluetooth.status on
+
+# on property:bluetooth.hciattach=false
+#     setprop bluetooth.status off

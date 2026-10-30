@@ -19,7 +19,7 @@
 
 #define BTA_DISABLE_DELAY 100 /* in milliseconds */
 
-#define BLE_VND_INCLUDED TRUE
+#define BLE_VND_INCLUDED FALSE
 #define BTM_BLE_ADV_TX_POWER {-21, -15, -7, 1, 9}
 #define BTM_SCO_ENHANCED_SYNC_ENABLED FALSE
 

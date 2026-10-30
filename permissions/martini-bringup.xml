@@ -1,12 +1,15 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!-- Temporary exclusions while display and basic Android startup are validated. -->
 <permissions>
-    <unavailable-feature name="android.hardware.bluetooth" />
-    <unavailable-feature name="android.hardware.bluetooth_le" />
     <unavailable-feature name="android.hardware.telephony" />
     <unavailable-feature name="android.hardware.telephony.gsm" />
     <unavailable-feature name="android.hardware.telephony.cdma" />
     <unavailable-feature name="android.hardware.telephony.ims" />
+    <unavailable-feature name="android.hardware.bluetooth" />
+    <unavailable-feature name="android.hardware.bluetooth_le" />
+    <unavailable-feature name="android.hardware.nfc" />
+    <unavailable-feature name="android.hardware.nfc.hce" />
+    <unavailable-feature name="android.hardware.nfc.any" />
     <unavailable-feature name="android.hardware.camera" />
     <unavailable-feature name="android.hardware.camera.any" />
     <unavailable-feature name="android.hardware.camera.front" />

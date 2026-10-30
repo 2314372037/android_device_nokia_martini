@@ -24,9 +24,3 @@ PRODUCT_NAME := lineage_martini
 PRODUCT_BRAND := nokia
 PRODUCT_MODEL := Lumia 930
 PRODUCT_MANUFACTURER := NOKIA
-
-PRODUCT_BUILD_PROP_OVERRIDES += \
-    PRODUCT_NAME=martini \
-    PRIVATE_BUILD_DESC="martini-user 6.0.1 M4B30Z 3437181 release-keys"
-
-BUILD_FINGERPRINT := google/martini/martini:6.0.1/M4B30Z/3437181:user/release-keys
