@@ -19,11 +19,6 @@
 #
 # Everything in this directory will become public
 
-# Keep ADB available before framework startup on development builds.
-ifneq ($(filter eng userdebug,$(TARGET_BUILD_VARIANT)),)
-PRODUCT_DEFAULT_PROPERTY_OVERRIDES += persist.sys.usb.config=adb
-endif
-
 # APEX
 PRODUCT_COPY_FILES += \
     $(LOCAL_PATH)/ld.config.txt:$(TARGET_COPY_OUT_VENDOR)/etc/swcodec/ld.config.txt
@@ -91,7 +86,6 @@ PRODUCT_COPY_FILES += \
     $(LOCAL_PATH)/sec_config:$(TARGET_COPY_OUT_VENDOR)/etc/sec_config
 
 
-
 # Privapp Whitelist
 PRODUCT_COPY_FILES += \
     $(LOCAL_PATH)/permissions/privapp-permissions-martini.xml:$(TARGET_COPY_OUT_VENDOR)/etc/permissions/privapp-permissions-martini.xml
@@ -115,7 +109,6 @@ PRODUCT_PACKAGES += \
     wificond \
     wpa_supplicant \
     wpa_supplicant.conf
-
 
 
 # LiveDisplay
