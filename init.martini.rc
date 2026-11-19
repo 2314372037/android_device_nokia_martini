@@ -132,6 +132,8 @@ on boot
     write /sys/bus/msm_subsys/devices/subsys1/restart_level "related"
     #venus
     write /sys/bus/msm_subsys/devices/subsys2/restart_level "related"
+    #wcnss
+    write /sys/bus/msm_subsys/devices/subsys3/restart_level "related"
 
     # Wifi firmware reload path
     chown wifi wifi /sys/module/wlan/parameters/fwpath
@@ -417,14 +419,24 @@ service vss_init /vendor/bin/vss_init
 on property:apexd.status=ready
     mount none /vendor/etc/swcodec/ld.config.txt /apex/com.android.media.swcodec/etc/ld.config.txt bind
 
-# service bluetooth_loader /vendor/bin/bluetooth_loader
-#     class main
-#     user bluetooth
-#     group bluetooth system
-#     oneshot
+service vendor.bluetooth_loader /vendor/bin/bluetooth_loader
+    class main
+    user bluetooth
+    group bluetooth system
+    oneshot
 
-# on property:bluetooth.hciattach=true
-#     setprop bluetooth.status on
+on property:init.svc.vendor.bluetooth_loader=stopped
+    chmod 0644 /data/misc/bluetooth/.bdaddr
+    chown bluetooth bluetooth /data/misc/bluetooth/.bdaddr
 
-# on property:bluetooth.hciattach=false
-#     setprop bluetooth.status off
+on property:bluetooth.hciattach=true
+    setprop bluetooth.status on
+
+on property:bluetooth.hciattach=false
+    setprop bluetooth.status off
+
+on property:vendor.bluetooth.hciattach=true
+    setprop vendor.bluetooth.status on
+
+on property:vendor.bluetooth.hciattach=false
+    setprop vendor.bluetooth.status off

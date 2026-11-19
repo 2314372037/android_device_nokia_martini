@@ -149,7 +149,7 @@
 /(system/vendor|vendor)/bin/timekeep                u:object_r:timekeep_exec:s0
 
 # sysfs - sysfs_power_management
-/sys/devices/(fe20|fc88|fdce)0000\.qcom,(lpass|mss|venus)/subsys[0-2]/restart_level u:object_r:sysfs_power_management:s0
+/sys/devices/(fe20|fc88|fdce|fb21b)000\.qcom,(lpass|mss|venus|pronto)/subsys[0-3]/restart_level u:object_r:sysfs_power_management:s0
 /sys/devices/platform/bluetooth_rfkill/rfkill/rfkill0/type                          u:object_r:sysfs_power_management:s0
 /sys/module/lpm_resources/enable_low_power(/.*)?                                    u:object_r:sysfs_power_management:s0
 /sys/module/slimport/parameters/enable_irq                                          u:object_r:sysfs_power_management:s0

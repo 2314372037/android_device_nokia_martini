@@ -5,8 +5,6 @@
     <unavailable-feature name="android.hardware.telephony.gsm" />
     <unavailable-feature name="android.hardware.telephony.cdma" />
     <unavailable-feature name="android.hardware.telephony.ims" />
-    <unavailable-feature name="android.hardware.bluetooth" />
-    <unavailable-feature name="android.hardware.bluetooth_le" />
     <unavailable-feature name="android.hardware.nfc" />
     <unavailable-feature name="android.hardware.nfc.hce" />
     <unavailable-feature name="android.hardware.nfc.any" />

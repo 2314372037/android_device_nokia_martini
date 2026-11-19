@@ -16,12 +16,8 @@
 
 # AptX
 PRODUCT_COPY_FILES += \
-    $(LOCAL_PATH)/codecs/aptx/lib/libaptX_encoder.so:$(TARGET_COPY_OUT_VENDOR)/lib/libaptX_encoder.so \
-    $(LOCAL_PATH)/codecs/aptx/lib/libaptXHD_encoder.so:$(TARGET_COPY_OUT_VENDOR)/lib/libaptXHD_encoder.so
-
-# Firmware
-PRODUCT_COPY_FILES += \
-    $(LOCAL_PATH)/firmware/BCM43xx.hcd:$(TARGET_COPY_OUT_VENDOR)/firmware/bcm4335c0.hcd
+    $(LOCAL_PATH)/codecs/aptx/lib/libaptX_encoder.so:$(TARGET_COPY_OUT_SYSTEM)/lib/libaptX_encoder.so \
+    $(LOCAL_PATH)/codecs/aptx/lib/libaptXHD_encoder.so:$(TARGET_COPY_OUT_SYSTEM)/lib/libaptXHD_encoder.so
 
 # MAC loader
 PRODUCT_PACKAGES += \
@@ -29,7 +25,8 @@ PRODUCT_PACKAGES += \
 
 # Properties
 PRODUCT_PROPERTY_OVERRIDES += \
-    bluetooth.chip.vendor=brcm \
+    qcom.bluetooth.soc=smd \
+    ro.qualcomm.bt.hci_transport=smd \
     persist.service.bdroid.a2dp_con=0 \
     persist.service.bdroid.scms_t=0
 
